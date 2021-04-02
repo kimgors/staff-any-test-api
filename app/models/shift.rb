@@ -1,4 +1,8 @@
 class Shift < ApplicationRecord
+  validates :name, presence: true
+  validates :date, presence: true
+  validates :start_time, presence: true
+  validates :end_time, presence: true
 
   def as_json(options={})
     options[:methods] = [:converted_start_time, :converted_end_time]
