@@ -2,7 +2,7 @@ module V1
   class ShiftsController < ApplicationController
 
     def index
-      render json: Shift.all.to_json
+      render json: Shift.all.to_json, adapter: :json, status: 200
     end
 
     def show
@@ -11,33 +11,33 @@ module V1
 
     def update
       if shift.update(shift_params)
-        render json: { message: 'Successfully updated' }, 200
+        render json: shift, status: 200
       else
-        render json: { errors: shift.errors }, 422
+        render json: { errors: shift.errors }, status: 422
       end
     end
 
     def create
       shift = Shift.new(shift_params)
       if shift.save
-        render json: { message: 'Successfully updated' }, 200
+        render json: { message: 'Successfully updated' }, status: 200
       else
-        render json: { errors: shift.errors }, 422
+        render json: { errors: shift.errors }, status: 422
       end
     end
 
-    def delete
+    def destroy
       if shift.destroy
-        render json: { message: 'Successfully deleted' }, 200
+        render json: { message: 'Successfully deleted' }, status: 200
       else
-        render json: { errors: shift.errors }, 422
+        render json: { errors: shift.errors }, status: 422
       end
     end
 
     private 
     
     def shift_params
-      params.permit(
+      params.require(:shift).permit(
               :name,
               :date,
               :start_time,
